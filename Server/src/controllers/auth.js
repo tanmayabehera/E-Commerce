@@ -23,7 +23,7 @@ exports.signup = (req, res) => {
             lastName,
             email,
             hash_password,
-            username : shortid
+            username : shortid.generate()
         });
 
         _user.save((error, data) => {
@@ -47,7 +47,7 @@ exports.signin = (req, res) => {
     .exec((error, user) =>{
         if(error) return res.status(400).json({ error });
         if(user){
-            if(user.authenticate(req.body.password && user.role === 'user')){
+            if(user.authenticate(req.body.password) && user.role === 'user'){
                 const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET, {
                     expiresIn: '1h'
                 });

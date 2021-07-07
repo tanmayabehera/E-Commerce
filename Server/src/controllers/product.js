@@ -93,4 +93,19 @@ exports.getProductsBySlug = (req, res) => {
     //         res.status(201).json({ product });
     //     }
     // }));
+};
+
+
+exports.getProductDetailsById = async (req, res) => {
+    const { productId } = req.params;
+    if(productId){
+        let product = await Product.findOne({ _id: productId });
+        if(product){
+            res.status(200).json({ product });
+        }else{
+            return res.status(400).json({ error });
+        }
+    }else{
+        return res.status(400).json({ error: 'Params Required' });
+    }
 }

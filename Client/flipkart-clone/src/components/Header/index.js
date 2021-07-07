@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./style.css";
 import flipkartLogo from "../../images/logo/flipkart.png";
 import goldenStar from "../../images/logo/golden-star.png";
+import cartLogo from "../../images/logo/cart.png";
 import { IoIosArrowDown, IoIosCart, IoIosSearch } from "react-icons/io";
 import {
   Modal,
@@ -10,7 +11,7 @@ import {
   DropdownMenu,
 } from "../MaterialUI";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../actions";
+import { login, signout, getCartItems } from "../../actions";
 // import { login, signout, getCartItems, signup as _signup } from "../../actions";
 // import Cart from "../UI/Cart";
 
@@ -59,7 +60,7 @@ const Header = (props) => {
   };
 
   const logout = () => {
-    // dispatch(signout());
+    dispatch(signout());
   };
 
   useEffect(() => {
@@ -68,14 +69,18 @@ const Header = (props) => {
     }
   }, [auth.authenticate]);
 
-  // useEffect(() => {
-  //   dispatch(getCartItems());
-  // }, []);
+  useEffect(() => {
+    if (auth.authenticate) {
+      dispatch(getCartItems());
+    }
+  }, [auth.authenticate]);
 
   const renderLoggedInMenu = () => {
     return (
       <DropdownMenu
-        menu={<a className="fullName">{auth.user.fullName}</a>}
+        menu={<a className="fullName">{auth.user.fullName}
+          <IoIosArrowDown />
+        </a>}
         menus={[
           { label: "My Profile", href: "", icon: null },
           { label: "SuperCoin Zone", href: "", icon: null },
@@ -134,7 +139,7 @@ const Header = (props) => {
                 setLoginModal(true);
                 setSignup(true);
               }}
-              style={{ color: "#2874f0" }}
+              style={{ color: "#2874f0", cursor: "pointer" }}
             >
               Sign Up
             </a>
@@ -186,7 +191,7 @@ const Header = (props) => {
                   label="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  // rightElement={<a href="#">Forgot?</a>}
+                // rightElement={<a href="#">Forgot?</a>}
                 />
                 <MaterialButton
                   title={signup ? "Register" : "Login"}
@@ -214,7 +219,7 @@ const Header = (props) => {
       <div className="subHeader">
         {/* Logo  */}
         <div className="logo">
-          <a href="">
+          <a href="/">
             <img src={flipkartLogo} className="logoimage" alt="" />
           </a>
           <a style={{ marginTop: "-10px" }}>
@@ -268,8 +273,9 @@ const Header = (props) => {
           />
           <div>
             <a href={`/cart`} className="cart">
+              <img src={cartLogo} style={{ height: "10%", width: "20px" }} alt="" />
               {/* <Cart count={Object.keys(cart.cartItems).length} /> */}
-              <span style={{ margin: "0 10px" }}>Cart</span>
+              <span style={{ margin: "0 0px" }}>Cart</span>
             </a>
           </div>
         </div>

@@ -26,7 +26,8 @@
 }
 .exploreText{ 
     font-size: 10px;
-    font-style: italic; 
+    font-style: italic;
+    color: whitesmoke; 
 }
 .plusText{ 
     font-size: 10px; 
@@ -95,7 +96,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 20px
+    margin: 0 20px;
+    text-decoration: none;
+  }
+  .firstMenu{
+    cursor: pointer;
   }
 
 .authContainer{
