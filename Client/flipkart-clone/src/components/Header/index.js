@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./style.css";
 import flipkartLogo from "../../images/logo/flipkart.png";
 import goldenStar from "../../images/logo/golden-star.png";
-import cartLogo from "../../images/logo/cart.png";
 import { IoIosArrowDown, IoIosCart, IoIosSearch } from "react-icons/io";
 import {
   Modal,
@@ -11,9 +10,8 @@ import {
   DropdownMenu,
 } from "../MaterialUI";
 import { useDispatch, useSelector } from "react-redux";
-import { login, signout, getCartItems } from "../../actions";
-// import { login, signout, getCartItems, signup as _signup } from "../../actions";
-// import Cart from "../UI/Cart";
+import { login, signout, getCartItems, signup as _signup } from "../../actions";
+import Cart from "../UI/Cart";
 
 
 
@@ -36,7 +34,7 @@ const Header = (props) => {
   // state cart value
   const cart = useSelector((state) => state.cart);
 
-  const userSignup = () => {
+  const userSignup = async () => {
     const user = { firstName, lastName, email, password };
     if (
       firstName === "" ||
@@ -47,15 +45,15 @@ const Header = (props) => {
       return;
     }
 
-    // dispatch(_signup(user));
+    await dispatch(_signup(user));
   };
 
-  const userLogin = () => {
-    // if (signup) {
-    //   userSignup();
-    // } else {
-    //   // dispatch(login({ email, password }));
-    // }
+  const userLogin = async () => {
+    if (signup) {
+      await userSignup();
+    } else {
+      dispatch(login({ email, password }));
+    }
     dispatch(login({ email, password }));
   };
 
@@ -255,7 +253,6 @@ const Header = (props) => {
         {/* right side menu */}
         <div className="rightMenu">
           {auth.authenticate ? renderLoggedInMenu() : renderNonLoggedInMenu()}
-          {/* {renderNonLoggedInMenu()} */}
           <DropdownMenu
             menu={
               <a className="more">
@@ -273,8 +270,7 @@ const Header = (props) => {
           />
           <div>
             <a href={`/cart`} className="cart">
-              <img src={cartLogo} style={{ height: "10%", width: "20px" }} alt="" />
-              {/* <Cart count={Object.keys(cart.cartItems).length} /> */}
+              { <Cart count={Object.keys(cart.cartItems).length} /> }
               <span style={{ margin: "0 0px" }}>Cart</span>
             </a>
           </div>

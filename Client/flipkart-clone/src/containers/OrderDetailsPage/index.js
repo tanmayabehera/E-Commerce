@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOrder } from "../../actions";
 import Layout from "../../components/Layout";
 import Card from "../../components/UI/Card";
-import Price from "../../components/UI/Price";
+import Price from "../../components/UI/Price.js";
 import { generatePublicUrl } from "../../urlConfig";
 
 import "./style.css";

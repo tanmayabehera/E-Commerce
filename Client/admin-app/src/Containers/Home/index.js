@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Jumbotron, Container, Row, Col } from 'react-bootstrap';
 import Layout from '../../Components/Layout';
 import { NavLink } from 'react-router-dom';
-import './style.css'
+import './style.css';
+import { useSelector } from "react-redux";
 
 /**
 * @author
@@ -10,16 +11,35 @@ import './style.css'
 **/
 
 const Home = (props) => {
-  return(
-    <Layout sidebar>
-      Container
-        {/*<Jumbotron style={{margin: '5rem', background: 'white'}} className="text-center">
-            <h1>Welcome to Admin Dashboard</h1>
-            <p1>This site is made by Tanmay for the purpose of learning MERN Stack.</p1>
-  </Jumbotron>*/}
-    </Layout>
-   )
 
- }
+  const auth = useSelector((state) => state.auth)
+  const [greeting, setGreeting] = useState('');
+
+  const hour = new Date().getHours();
+  useEffect(() => {
+    if (hour < 12) {
+      setGreeting("Good Morning");
+    }
+    else if (hour < 17) {
+      setGreeting("Good Afternoon");
+    }
+    else {
+      setGreeting("Good Evening");
+    }
+  }, [hour])
+
+
+  return (
+    <Layout sidebar >
+      <Jumbotron style={{
+        margin: '5rem', background: 'aliceblue', fontFamily: 'cursive',
+        borderRadius: '35px'
+      }} className="text-center">
+        <h1>Hii {auth.user.firstName}, {greeting}!</h1>
+      </Jumbotron>
+    </Layout>
+  )
+
+}
 
 export default Home
